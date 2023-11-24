@@ -15,7 +15,7 @@ last_label=""
 OLDIFS=$IFS
 IFS=$'\n'
 
-echo "$(date)" > temp_playlist.org
+echo "$(date)" > temp_playlist.log
 
 for f in `cat science_tech_history_etc.m3u` ; do
 # for f in `cat science_tech_history_etc.m3u` ; do
