@@ -17,7 +17,7 @@ IFS=$'\n'
 
 echo "$(date)" > temp_playlist.log
 
-for f in `cat science_tech_history_etc.m3u` ; do
+for f in `cat science_tech_history_etc.m3u | shuf` ; do
 # for f in `cat science_tech_history_etc.m3u` ; do
     # remove leading spaces
     f=${f##*( )}
@@ -31,18 +31,18 @@ for f in `cat science_tech_history_etc.m3u` ; do
          if [[ -n "${last_label}" ]]; then
             # label specified earlier
             echo ============= ${last_label} ================
-            echo ============= ${last_label} ================ >> temp_playlist.org
+            echo ============= ${last_label} ================ >> temp_playlist.log
             last_label=""
          else
             # just use rss link as label
             echo ============= ${f} ================
-            echo ============= ${f} ================ >> temp_playlist.org
+            echo ============= ${f} ================ >> temp_playlist.log
          fi
 
          for url in `curl --silent ${f} | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*(mp3|mp4|m4a|ogg)" | uniq | head -n 2`;
          do
              echo ${url}
-             echo ${url} >> temp_playlist.org
+             echo ${url} >> temp_playlist.log
              #smplayer -add-to-playlist ${url} > /dev/null
              echo ${url} >> ${playlist_filename}
          done
