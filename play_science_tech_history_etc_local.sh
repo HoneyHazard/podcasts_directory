@@ -4,7 +4,9 @@ playlist_filename="temp_playlist.m3u"
 #player_command="smplayer ${playlist_filename}"
 #player_command="nvlc --loop --random --playlist-autostart ${playlist_filename}"
 #player_command="vlc --loop --random --playlist-autostart ${playlist_filename}"
-player_command="celluloid ${playlist_filename}"
+player_command="strawberry --play --load ${playlist_filename}"
+#player_kill="pkill -f strawberry"
+player_kill=""
 
 rm ${playlist_filename}
 
@@ -43,7 +45,6 @@ for f in `cat science_tech_history_etc.m3u | shuf` ; do
          do
              echo ${url}
              echo ${url} >> temp_playlist.log
-             #smplayer -add-to-playlist ${url} > /dev/null
              echo ${url} >> ${playlist_filename}
          done
     fi
@@ -51,5 +52,9 @@ for f in `cat science_tech_history_etc.m3u | shuf` ; do
 done
 
 IFS=$OLDIFS
+
+${player_kill}
+
+sleep 1
 
 ${player_command} &
