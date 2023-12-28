@@ -9,6 +9,7 @@ player_command="strawberry --play --load ${playlist_filename}"
 player_kill=""
 
 rm ${playlist_filename}
+echo "#EXTM3U" > ${playlist_filename}
 
 #for f in `cat science_tech_history_etc.m3u` ; do
 #for f in `cat science_tech_history_etc.m3u | head -n 3` ; do
@@ -30,10 +31,12 @@ for f in `cat science_tech_history_etc.m3u | shuf` ; do
        f=${f##*( )}
        last_label=${f}
     elif [[ -n "${f}" ]]; then
+         use_label=
          if [[ -n "${last_label}" ]]; then
             # label specified earlier
             echo ============= ${last_label} ================
             echo ============= ${last_label} ================ >> temp_playlist.log
+            use_label=${last_label}
             last_label=""
          else
             # just use rss link as label
@@ -41,11 +44,17 @@ for f in `cat science_tech_history_etc.m3u | shuf` ; do
             echo ============= ${f} ================ >> temp_playlist.log
          fi
 
+         i=1
          for url in `curl --silent ${f} | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*(mp3|mp4|m4a|ogg)" | uniq | head -n 2`;
-         do
+         do               
              echo ${url}
              echo ${url} >> temp_playlist.log
+
+             if [[ -n $use_label ]]; then
+                 echo "#EXTINF:-1,${use_label} - ${use_label} #${i}" >> ${playlist_filename}
+             fi
              echo ${url} >> ${playlist_filename}
+             ((i++))
          done
     fi
 #    sleep 5
