@@ -25,6 +25,7 @@ def shuffle_playlist(input_playlist='temp_playlist.m3u', output_playlist='temp_p
 
     # Writing shuffled entries along with comments to a new playlist file
     with open(output_playlist, 'w') as file:
+        file.write('#EXTM3U\n')
         for comment, entry in entries_with_comments:
             if comment:
                 file.write(comment + '\n')

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git pull
+
 playlist_filename="temp_playlist.m3u"
 #player_command="smplayer ${playlist_filename}"
 #player_command="nvlc --loop --random --playlist-autostart ${playlist_filename}"
@@ -85,5 +87,7 @@ IFS=$OLDIFS
 ${player_kill}
 
 sleep 1
+
+./shuffle_playlist.py
 
 ${player_command} &
