@@ -3,31 +3,35 @@
 import random
 import sys
 
-# Function to shuffle an M3U playlist while preserving comments and metadata
+# Function to shuffle an M3U playlist while preserving comments and entry associations
 def shuffle_playlist(input_playlist='temp_playlist.m3u', output_playlist='temp_playlist.m3u'):
     with open(input_playlist, 'r') as file:
         lines = file.readlines()
 
-    # Extracting entries from the playlist and preserving comments/metadata
-    entries_with_metadata = []
-    metadata = []
+    # Extracting comments, entries, and their association
+    entries_with_comments = []
+    current_comment = ''
     for line in lines:
         line = line.strip()
-        if line and not line.startswith('#'):
-            entries_with_metadata.append(line)
-        elif line.startswith('#'):
-            metadata.append(line)
+        if line.startswith('#'):
+            current_comment = line
+        elif line:
+            entries_with_comments.append((current_comment, line))
+        else:
+            entries_with_comments.append(('', ''))  # Handling entries without comments
 
-    # Shuffling the playlist entries
-    random.shuffle(entries_with_metadata)
+    # Shuffling the playlist entries while maintaining comments association
+    random.shuffle(entries_with_comments)
 
-    # Writing shuffled entries along with comments/metadata to a new playlist file
+    # Writing shuffled entries along with comments to a new playlist file
     with open(output_playlist, 'w') as file:
-        file.write('\n'.join(metadata) + '\n')  # Writing metadata/comments first
-        for entry in entries_with_metadata:
-            file.write(entry + '\n')  # Writing shuffled entries
+        for comment, entry in entries_with_comments:
+            if comment:
+                file.write(comment + '\n')
+            if entry:
+                file.write(entry + '\n')
 
-    print(f"Playlist '{input_playlist}' shuffled while preserving comments/metadata and saved as '{output_playlist}'.")
+    print(f"Playlist '{input_playlist}' shuffled while preserving comments/entry associations and saved as '{output_playlist}'.")
 
 if __name__ == "__main__":
     # Usage: python script_name.py input_playlist.m3u output_playlist.m3u
@@ -35,6 +39,3 @@ if __name__ == "__main__":
     output_file = 'temp_playlist.m3u' if len(sys.argv) < 3 else sys.argv[2]
     
     shuffle_playlist(input_file, output_file)
-#python
-
-
