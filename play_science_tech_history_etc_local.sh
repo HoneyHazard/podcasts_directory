@@ -8,7 +8,7 @@ playlist_filename="temp_playlist.m3u"
 #player_command="vlc --loop --random --playlist-autostart ${playlist_filename}"
 player_command="strawberry --play --load ${playlist_filename}"
 #player_kill="pkill -f strawberry"
-player_kill=""
+player_kill="pkill -f strawberry"
 
 rm ${playlist_filename}
 echo "#EXTM3U" > ${playlist_filename}
@@ -89,5 +89,9 @@ ${player_kill}
 sleep 1
 
 ./shuffle_playlist.py
+
+${player_kil}
+
+sleep 2
 
 ${player_command} &
