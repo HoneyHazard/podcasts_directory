@@ -30,6 +30,6 @@ def shuffle_m3u(input_file, output_file):
 
 if __name__ == "__main__":
     input_playlist = "temp_playlist.m3u"
-    output_playlist = "shuffled_playlist.m3u"
+    output_playlist = "temp_playlist.m3u"
     shuffle_m3u(input_playlist, output_playlist)
 
